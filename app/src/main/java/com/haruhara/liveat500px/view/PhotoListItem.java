@@ -87,4 +87,17 @@ public class PhotoListItem extends BaseCustomViewGroup {
         // Restore State from bundle here
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = width * 2 / 3;
+        int newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(
+                height,
+                MeasureSpec.EXACTLY
+        );
+        // set child view dimen
+        super.onMeasure(widthMeasureSpec, newHeightMeasureSpec);
+        // set self view dimen
+        setMeasuredDimension(width, height);
+    }
 }
