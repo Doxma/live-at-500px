@@ -5,7 +5,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.module.AppGlideModule;
+import com.bumptech.glide.request.RequestOptions;
 import com.haruhara.liveat500px.R;
 import com.inthecheesefactory.thecheeselibrary.view.BaseCustomViewGroup;
 import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
@@ -14,6 +20,10 @@ import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
  * Created by nuuneoi on 11/16/2014.
  */
 public class PhotoListItem extends BaseCustomViewGroup {
+
+    ImageView ivImg;
+    TextView tvName;
+    TextView tvDescription;
 
     public PhotoListItem(Context context) {
         super(context);
@@ -49,6 +59,9 @@ public class PhotoListItem extends BaseCustomViewGroup {
 
     private void initInstances() {
         // findViewById here
+        tvName = findViewById(R.id.tvName);
+        tvDescription = findViewById(R.id.tvDescription);
+        ivImg = findViewById(R.id.ivImg);
     }
 
     private void initWithAttrs(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -99,5 +112,24 @@ public class PhotoListItem extends BaseCustomViewGroup {
         super.onMeasure(widthMeasureSpec, newHeightMeasureSpec);
         // set self view dimen
         setMeasuredDimension(width, height);
+    }
+
+    public void setNameText(String text) {
+        tvName.setText(text);
+    }
+
+    public void setDescription(String text) {
+        tvDescription.setText(text);
+    }
+
+    public void setImageUrl(String url) {
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
+        requestOptions.placeholder(R.drawable.loading);
+
+        Glide.with(getContext())
+                .load(url)
+                .apply(requestOptions)
+                .into(ivImg);
     }
 }
